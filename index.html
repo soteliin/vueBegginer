@@ -17,11 +17,16 @@
       [v-cloak] {
         display: none;
       }
+      input {
+        margin: 10px;
+        display: block;
+      }
     </style>
   </head>
   <body>
     <div id="app" v-cloak>
-      {{greeting}}
+      <!-- {{greeting}} -->
+      <custom-form></custom-form>
       <input @keyup.enter="greet(greeting+'!!!$%')" v-model="greeting" />
       <hr />
       <!-- <button v-on:click="isVisible=!isVisible">show box</button> -->
@@ -46,6 +51,29 @@
           },
           greet(greeting) {
             console.log(greeting);
+          },
+        },
+      });
+      app.component("custom-form", {
+        template: `
+          <form @submit.prevent="handleSubmit">
+            <h1>{{title}}</h1>
+            <input type="email" v-model="email">
+            <input type="password" v-model="password">
+            <button>submit</button>
+          </form>
+
+        `,
+        data() {
+          return {
+            title: "login form",
+            email: "",
+            password: "",
+          };
+        },
+        methods: {
+          handleSubmit() {
+            console.log(this.email,this.password);
           },
         },
       });
