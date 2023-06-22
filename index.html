@@ -58,8 +58,15 @@
         template: `
           <form @submit.prevent="handleSubmit">
             <h1>{{title}}</h1>
-            <custom-input v-model="email" :modelValue="email" :label="emailLabel"></custom-input>
-            <custom-input v-model="password" :modelValue="password" :label="passwordLabel"></custom-input>
+          <!--  <p v-for="(str,i) in inputs" :key="i">{{str}}</p>-->
+            <custom-input 
+              v-for="(input,i) in inputs"
+              :key="i"
+              v-model="input.value" 
+              :label="input.label"
+              :type="input.type"
+            ></custom-input>
+            <!--<custom-input v-model="password" :modelValue="password" :label="passwordLabel"></custom-input>-->
             <button>submit</button>
           </form>
 
@@ -68,6 +75,23 @@
         data() {
           return {
             title: "login form",
+            // inputs:[
+            //   "email",
+            //   "password",
+            //   "name"
+            // ],
+            inputs: [
+              {
+                label: "email",
+                vale: "",
+                type: "email",
+              },
+              {
+                label: "password",
+                vale: "",
+                type: "password",
+              },
+            ],
             email: "",
             password: "",
             emailLabel: "email",
@@ -76,7 +100,7 @@
         },
         methods: {
           handleSubmit() {
-            console.log(this.email, this.password);
+            console.log(this.inputs[0].value, this.inputs[1].value);
           },
         },
       });
@@ -84,10 +108,10 @@
         template: `
           <label>
             {{label}}
-            <input type="text" v-model="inputValue">
+            <input :type="type" v-model="inputValue">
           </label>
         `,
-        props: ["label", "modelValue"],
+        props: ["label", "type", "modelValue"],
         computed: {
           inputValue: {
             get() {
